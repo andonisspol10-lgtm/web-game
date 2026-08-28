@@ -11,22 +11,18 @@ body{
     justify-content: center;
     display: flex;
 }
-button{
-    background-color: rgb(23, 6, 201);
-    color: rgb(0, 0, 0);
-    margin: 5px;
+#ops{
+    margin-top: 210px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
 
 }
-p{
-    font-style: arial;
-    font-size: 30px;
-    color:yellow;
-    size: 100px;
-}
-label{
-    font: arial;
-    background-color: orange;
-    color: black;
-    size: 300px;
-    box-shadow: 3px 3px 3px orangered;
+#start{
+    padding: 65px;
+    padding-left:190px ;
+    margin-left: 150px;
+    padding-right: 350px;
+
 }
