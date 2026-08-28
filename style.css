@@ -1,0 +1,33 @@
+body{
+    background-color:rgb(201, 219, 0);
+    background-image: url(Untitled.png);
+}
+h1{
+    color: blue;
+    background-color: rgb(237, 7, 7);
+    background-size: cover;
+    margin: 50px;
+    border: 2px solid black;
+    box-shadow: 2px 2px 2px rgb(165, 36, 14);
+    justify-content: center;
+    display: flex;
+}
+button{
+    background-color: rgb(23, 6, 201);
+    color: rgb(0, 0, 0);
+    margin: 5px;
+
+}
+p{
+    font-style: arial;
+    font-size: 30px;
+    color:yellow;
+    size: 100px;
+}
+label{
+    font: arial;
+    background-color: orange;
+    color: black;
+    size: 300px;
+    box-shadow: 3px 3px 3px orangered;
+}
