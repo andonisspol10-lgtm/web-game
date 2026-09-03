@@ -1,6 +1,8 @@
-body{
-
+#index{
     background-image: url(Untitled.png);
+}
+body{
+    background-color: gray;
 }
 #title{
     color: blue;
@@ -50,3 +52,13 @@ body{
     color:transparent;
     background-image: url(Untitled99.png);
 }
+
+#back{
+    display: flex;
+    justify-content: top;
+    margin-left: 1490px;
+   background-color: red;
+    padding:5px;
+    padding-left:10px;
+    padding-right:10px;
+};
