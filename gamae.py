@@ -15,53 +15,67 @@ wall1=pygame.Rect(0,0,5,600)
 wall2=pygame.Rect(795,0,5,600)
 player1_vl_x=0
 player1_vl_y=0
+grounded=False
 
 while runing:
-    for event in pygame.event.get():
-        if event.type==pygame.QUIT:
-            runing=False
-    if player1_vl_y<5:
-        player1_vl_y+=1
-    player1.y+=player1_vl_y
     key=pygame.key.get_pressed()
 
-    if key[pygame.K_d]:
-        player1.x+=5
+    if key[pygame.K_SPACE] :
+                if player1.bottom==floor.top and grounded:
+                    player1_vl_y=-20
+    
+                if player1.bottom==platform1.top and grounded:
+                    player1_vl_y=-20
+    
+                if player1.bottom==platform2.top and grounded:
+                    player1_vl_y=-20
+    for event in pygame.event.get():
+
+        if event.type==pygame.QUIT:
+            runing=False
+    
+    if player1_vl_y<5:
+        player1_vl_y+=1
+
+    if player1_vl_x>0:
+        player1_vl_x-=0.5
+    elif player1_vl_x<0:
+        player1_vl_x+=0.5
+    player1.y+=player1_vl_y
+    player1.x+=player1_vl_x
+
+    if key[pygame.K_d] and player1_vl_x<5:
+        player1_vl_x+=1
         flag=True
-    elif key[pygame.K_a]:
-        player1.x-=5
+    elif key[pygame.K_a] and player1_vl_x>-5:
+        player1_vl_x-=1
         flag=False
-
-    if key[pygame.K_SPACE] and (player1.colliderect(floor) or (player1.colliderect(platform1) and player1.bottom>platform1.top)  or player1.colliderect(platform2) and player1.bottom>platform2.top):
-            if player1.colliderect(floor):
-                player1.y=floor.y-player1.height-1
-            elif player1.colliderect(platform1) and player1.bottom>platform1.top and player1.top>platform1.bottom:
-                player1.y=platform1.y-player1.height-2
-            elif player1.colliderect(platform2) and player1.bottom>platform2.top and player1.top>platform2.bottom:
-                player1.y=platform2.y-player1.height-1
-            player1_vl_y=-20
-
+    grounded=False  
     if player1.colliderect(floor):
-        player1.y=floor.y-player1.height
+        player1.bottom=floor.top
         player1_vl_y=0
+        grounded=True
     
     if player1.colliderect(platform1):
-        if player1.bottom>platform1.top and player1.bottom<platform1.bottom:
-            player1.y=platform1.y-player1.height
-            print('run')
-        elif player1.top<platform1.bottom and player1.top>platform1.top:
-            print('run2')
-            player1.y=platform1.y+player1.height+platform1.height
-        player1_vl_y=0
 
+        if player1_vl_y>0:
+            player1.bottom=platform1.top
+            player1_vl_y=0
+            grounded=True
+        elif player1_vl_y<0:
+            player1.top=platform1.bottom
+            player1_vl_y=0
+            grounded=True
+        
     if player1.colliderect(platform2):
-        if player1.bottom>platform2.top and player1.bottom<platform2.bottom:
-            player1.y=platform2.y-player1.height
-            print('run3')
-        elif player1.top<platform2.bottom and player1.top>platform2.top:
-            print('run4')
-            player1.y=platform2.y+player1.height+platform2.height
-        player1_vl_y=0
+        if player1_vl_y>0:
+            player1.bottom=platform2.top
+            player1_vl_y=0
+            grounded=True
+        elif player1_vl_y<0:
+            player1.top=platform2.bottom
+            player1_vl_y=0
+            grounded=True
 
     if player1.colliderect(wall1):
         player1.x=wall1.x+wall1.width
@@ -72,7 +86,7 @@ while runing:
         player1_vl_x=0
 
     screen.fill('purple')
-    pygame.draw.rect(screen,'gray',player1)
+    #pygame.draw.rect(screen,'gray',player1) # --hitbox--
     if flag:
         screen.blit(player1img, (player1.x, player1.y))
     else:
