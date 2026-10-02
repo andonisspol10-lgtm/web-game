@@ -47,19 +47,15 @@ def world(player1_vl_x,player1_vl_y,grounded,platforms,wall1,wall2,floor):
 
 def player_movement(player1_vl_x,player1_vl_y,grounded,key,flag,floor,platform1,platform2,player):
     if key[pygame.K_SPACE] :
-        print('space')
 
         if player.bottom==floor.top and grounded:
             player1_vl_y=-20
-            print('space1')
         
         if player.bottom==platform1.top and grounded:
             player1_vl_y=-20
-            print('space2')
         
         if player.bottom==platform2.top and grounded:
             player1_vl_y=-20
-            print('space3')
 
     if player1_vl_y<5:
             player1_vl_y+=1
@@ -75,6 +71,7 @@ def player_movement(player1_vl_x,player1_vl_y,grounded,key,flag,floor,platform1,
         flag=True
     elif key[pygame.K_a] and player1_vl_x>-5:
         player1_vl_x-=1
+        flag=False
 
     return player1_vl_x,player1_vl_y,grounded,flag
 
@@ -87,8 +84,6 @@ while runing:
 
         if event.type==pygame.QUIT:
             runing=False
-
-        flag=False
     grounded=False
 
     player1.y+=player1_vl_y
@@ -98,10 +93,10 @@ while runing:
     player1_vl_x,player1_vl_y,grounded,flag=player_movement(player1_vl_x,player1_vl_y,grounded,key,flag,floor,platform1,platform2,player1)
 
     screen.fill('purple')
-    pygame.draw.rect(screen,'gray',player1) # --hitbox--
+    #pygame.draw.rect(screen,'gray',player1) # --hitbox--
     if flag:
         screen.blit(player1img, (player1.x, player1.y))
-    else:
+    elif flag==False:
         screen.blit(player1imgleft, (player1.x, player1.y))
     
     pygame.draw.rect(screen,'brown',floor)
