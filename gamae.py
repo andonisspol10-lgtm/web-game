@@ -6,9 +6,19 @@ player1img=pygame.image.load('untiteld4.png')
 player1img=pygame.transform.scale(player1img,(60,85))
 player1imgleft=pygame.transform.flip(player1img,True,False)
 
+player1attack=pygame.image.load('untiteld4_attack.png')
+player1attack=pygame.transform.scale(player1attack,(60,85))
+player1attackleft=pygame.transform.flip(player1attack,True,False)
+
+pa1r=player1img
+
 player2img=pygame.image.load('Untitled5.png')
 player2img=pygame.transform.scale(player2img,(60,85))
 player2imgleft=pygame.transform.flip(player2img,True,False)
+
+player2attack=pygame.image.load('Untitled5_attack.png')
+player2attack=pygame.transform.scale(player2attack,(60,85))
+player2attackleft=pygame.transform.flip(player2attack,True,False)
 
 clock=pygame.time.Clock()
 
@@ -130,8 +140,6 @@ def player_movement(player_vl_x,player_vl_y,grounded,key,flag,floor,platform1,pl
 
     elif player_vl_x<0:
             player_vl_x+=0.5
-        
-    
 
     return player_vl_x,player_vl_y,grounded,flag
 
@@ -139,6 +147,7 @@ def player_movement(player_vl_x,player_vl_y,grounded,key,flag,floor,platform1,pl
 
 while runing:
     key=pygame.key.get_pressed()
+    mouse=pygame.mouse.get_pressed()
 
     for event in pygame.event.get():
 
@@ -160,12 +169,23 @@ while runing:
     screen.fill('purple')
     #pygame.draw.rect(screen,'gray',player1) # --hitbox--
     #pygame.draw.rect(screen,'gray',player2) # --hitbox--
-    if flag1==True:
+    if mouse[0]:
+        if flag1==True:
+            screen.blit(player1attack, (player1.x, player1.y))
+        elif flag1==False:
+            screen.blit(player1attackleft, (player1.x, player1.y))
+            
+    elif flag1==True:
         screen.blit(player1img, (player1.x, player1.y))
     elif flag1==False:
         screen.blit(player1imgleft, (player1.x, player1.y))
-    
-    if flag2==True:
+    if mouse[2]:
+        if flag2==True:
+            screen.blit(player2attack, (player2.x, player2.y))
+        elif flag2==False:
+            screen.blit(player2attackleft, (player2.x, player2.y))
+
+    elif flag2==True:
         screen.blit(player2img, (player2.x, player2.y))
     elif flag2==False:
         screen.blit(player2imgleft, (player2.x, player2.y))
