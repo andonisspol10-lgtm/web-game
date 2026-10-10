@@ -45,6 +45,17 @@ player2_vl_y=0
 grounded1=False
 grounded2=False 
 
+player1_health=100
+player2_health=100
+
+player1_cooldown=0
+player2_cooldown=0
+click1=True
+click2=True
+
+player1_health_bar_damege=pygame.Rect(10,10,200,20)
+player2_health_bar_damege=pygame.Rect(590,10,200,20)
+
 def world(player_vl_x,player_vl_y,grounded,platforms,wall1,wall2,floor,player,player_num):
 
 
@@ -91,6 +102,8 @@ def world(player_vl_x,player_vl_y,grounded,platforms,wall1,wall2,floor,player,pl
                 player_vl_x=0
 
     return player_vl_x,player_vl_y,grounded
+
+
 
 def player_movement(player_vl_x,player_vl_y,grounded,key,flag,floor,platform1,platform2,player,player_num):
     print(player)
@@ -143,11 +156,36 @@ def player_movement(player_vl_x,player_vl_y,grounded,key,flag,floor,platform1,pl
 
     return player_vl_x,player_vl_y,grounded,flag
 
-    
+
+
+def player_attack(player_health,player,flag,enemy,cooldown,click):
+    if cooldown<=0 and click:
+        if flag:
+            attack_box=pygame.Rect(player.right,player.y,45,35)
+        elif flag==False:
+            attack_box=pygame.Rect(player.left-45,player.y,45,35)
+
+        if attack_box.colliderect(enemy) and player_health>0:
+            player_health-=2
+            if player_health<0:
+                player_health=0
+        #pygame.draw.rect(screen,'yellow',attack_box)
+        cooldown=30
+        click=False
+
+    return player_health,cooldown,click
+
+
+
+
 
 while runing:
+    player1_cooldown-=1
+    player2_cooldown-=1
     key=pygame.key.get_pressed()
     mouse=pygame.mouse.get_pressed()
+    player1_health_bar=pygame.Rect(10,10,player1_health*2,20)
+    player2_health_bar=pygame.Rect(590,10,player2_health*2,20)
 
     for event in pygame.event.get():
 
@@ -161,32 +199,57 @@ while runing:
     player2.y+=player2_vl_y
     player2.x+=player2_vl_x
 
+    if not mouse[0] and not click1:
+        click1=True
+    if not mouse[2] and not click2:
+        click2=True
+    
+    #region
     player1_vl_x,player1_vl_y,grounded1=world(player1_vl_x,player1_vl_y,grounded1,platforms,wall1,wall2,floor,player1,1)
     player2_vl_x,player2_vl_y,grounded2=world(player2_vl_x,player2_vl_y,grounded2,platforms,wall1,wall2,floor,player2,2)
     player1_vl_x,player1_vl_y,grounded1,flag1=player_movement(player1_vl_x,player1_vl_y,grounded1,key,flag1,floor,platform1,platform2,player1,1)
     player2_vl_x,player2_vl_y,grounded2,flag2=player_movement(player2_vl_x,player2_vl_y,grounded2,key,flag2,floor,platform1,platform2,player2,2)
+    #endregion
 
     screen.fill('purple')
+    pygame.draw.rect(screen,'red',player1_health_bar_damege)
+    pygame.draw.rect(screen,'red',player2_health_bar_damege)
+
+    pygame.draw.rect(screen,'green',player1_health_bar)
+    pygame.draw.rect(screen,'green',player2_health_bar)
+
+    
     #pygame.draw.rect(screen,'gray',player1) # --hitbox--
     #pygame.draw.rect(screen,'gray',player2) # --hitbox--
-    if mouse[0]:
+
+    if mouse[0] and click1 and player1_cooldown<=0:
+        player2_health,player1_cooldown,click1=player_attack(player2_health,player1,flag1,player2,player1_cooldown,click1)
+
         if flag1==True:
             screen.blit(player1attack, (player1.x, player1.y))
+
         elif flag1==False:
-            screen.blit(player1attackleft, (player1.x, player1.y))
-            
+            screen.blit(player1attackleft, (player1.x, player1.y))   
+
     elif flag1==True:
         screen.blit(player1img, (player1.x, player1.y))
+
     elif flag1==False:
         screen.blit(player1imgleft, (player1.x, player1.y))
-    if mouse[2]:
+
+
+    if mouse[2] and click2 and player2_cooldown<=0:
+        player1_health,player2_cooldown,click2=player_attack(player1_health,player2,flag2,player1,player2_cooldown,click2)
+
         if flag2==True:
             screen.blit(player2attack, (player2.x, player2.y))
+
         elif flag2==False:
             screen.blit(player2attackleft, (player2.x, player2.y))
 
     elif flag2==True:
         screen.blit(player2img, (player2.x, player2.y))
+
     elif flag2==False:
         screen.blit(player2imgleft, (player2.x, player2.y))
 
