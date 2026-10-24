@@ -28,7 +28,7 @@ jobs:
       - name: Add landing page
         run: |
           cp build/web/index.html build/web/playing.html
-          cp -r build/web/
+          cp -r landing/* build/web/
 
       - uses: actions/upload-pages-artifact@v3
         with:
