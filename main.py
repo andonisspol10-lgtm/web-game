@@ -1,7 +1,3 @@
-from ast import Global
-from pdb import run
-from tkinter import ALL
-
 import pygame
 import asyncio
 screen=pygame.display.set_mode((800,600))
@@ -208,7 +204,7 @@ async def main():
             countdown-=1
         player1_cooldown-=1
         player2_cooldown-=1
-
+        
         key=pygame.key.get_pressed()
         mouse=pygame.mouse.get_pressed()
         player1_health_bar=pygame.Rect(10,10,player1_health*2,20)
@@ -310,6 +306,7 @@ async def main():
             screen.blit(player_death_img, (0,0))
         pygame.display.flip()
         clock.tick(60)
+        await asyncio.sleep(0)
 
     pygame.quit()
 asyncio.run(main())
