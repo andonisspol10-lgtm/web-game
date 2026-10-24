@@ -24,6 +24,12 @@ jobs:
           python-version: "3.12"
       - run: pip install pygbag
       - run: python -m pygbag --build $GITHUB_WORKSPACE
+
+      - name: Add landing page
+        run: |
+          cp build/web/index.html build/web/playing.html
+          cp -r landing/* build/web/
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: build/web

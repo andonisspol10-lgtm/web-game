@@ -10,7 +10,7 @@ function opensetings(){
 };
 
 function gameplay(){
-    window.location.href='play.html';
+    window.location.href='playing.html';
 };
 function playerchange(){
     window.location.href='player.html';
